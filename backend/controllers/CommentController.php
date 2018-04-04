@@ -124,4 +124,18 @@ class CommentController extends Controller
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
+
+    public function actionApprove($id)
+    {
+        if(!Yii::$app->user->can('commentAuditor')){
+            throw new ForbiddenHttpException('对不起，你没有权限进行该操作！');
+        }
+
+        $model = $this->findModel($id);
+        $model->status = 2;//已审核
+        if($model->save())
+        {
+            return $this->redirect(['index']);
+        }
+    }
 }
