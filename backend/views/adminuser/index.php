@@ -7,7 +7,7 @@ use yii\grid\GridView;
 /* @var $searchModel common\models\AdminuserSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = '管理员';
+$this->title = '管理员管理';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="adminuser-index">
@@ -16,7 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('新建管理员', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('新增管理员', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?= GridView::widget([
@@ -28,11 +28,25 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             'username',
             'nickname',
-            'password',
+//            'password',
             'email:email',
             //'profile:ntext',
 
-            ['class' => 'yii\grid\ActionColumn'],
+            ['class' => 'yii\grid\ActionColumn',
+                        'template'=>'{view}{update}{privilege}',
+                        'buttons'=>[
+                                      'privilege'=>function($url,$model,$key)
+                                      {
+                                          $options=[
+                                                  'title'=>Yii::t('yii','权限'),
+                                                  'aria-lable'=>Yii::t('yii','权限'),
+                                                  'data-pjax'=>'0',
+                                          ];
+
+                                          return Html::a('<span class="glyphicon glyphicon-user"></span>',$url,$options);
+                                      }
+                        ],
+            ],
         ],
     ]); ?>
 </div>
