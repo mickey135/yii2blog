@@ -53,6 +53,27 @@ class User extends ActiveRecord implements IdentityInterface
         return [
             ['status', 'default', 'value' => self::STATUS_ACTIVE],
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_DELETED]],
+            [['email'],'unique'],
+            [['email'],'required'],
+            [['email'],'email'],
+        ];
+    }
+
+    /**
+     * 注释
+     */
+    public function attributeLabels()
+    {
+        return [
+            'id' => 'ID',
+            'username' => '用户名',
+            'auth_key' => 'Auth Key',
+            'password_hash' => 'Password Hash',
+            'password_reset_token' => 'Password Reset Token',
+            'email' => 'Email',
+            'status' => '状态',
+            'created_at' => '创建时间',
+            'updated_at' => '修改时间',
         ];
     }
 
@@ -186,4 +207,24 @@ class User extends ActiveRecord implements IdentityInterface
     {
         $this->password_reset_token = null;
     }
+
+    /**
+     * 获取评论
+     * @return \yii\db\ActiveQuery
+     */
+    public function getComments()
+    {
+        return $this->hasMany(Comment::className(),['userid'=>'id']);
+    }
+
+    public static function allStatus()
+    {
+        return [self::STATUS_ACTIVE=>'正常',self::STATUS_DELETED=>'已删除'];
+    }
+
+    public function getStatusStr()
+    {
+        return $this->status==self::STATUS_ACTIVE?'正常':'已删除';
+    }
+
 }

@@ -2,6 +2,7 @@
 
 namespace backend\controllers;
 
+use backend\models\SignupForm;
 use common\models\AuthAssignment;
 use common\models\AuthItem;
 use Yii;
@@ -66,10 +67,14 @@ class AdminuserController extends Controller
      */
     public function actionCreate()
     {
-        $model = new Adminuser();
+        $model = new SignupForm();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post())) {
+            if($user = $model->signup())
+            {
+                return $this->redirect(['view', 'id' => $user->id]);
+            }
+
         }
 
         return $this->render('create', [
@@ -173,6 +178,7 @@ class AdminuserController extends Controller
             return $this->redirect(['index']);
         }
 
+//        var_dump($AuthAssignmentsArray);exit();
         //step4.渲染checkBoxList表单
         return $this->render('privilege',['id'=>$id,'AuthAssignmentArray'=>$AuthAssignmentsArray,
             'allPrivilegesArray'=>$allPrivilegesArray]);

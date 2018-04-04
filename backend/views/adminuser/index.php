@@ -33,8 +33,17 @@ $this->params['breadcrumbs'][] = $this->title;
             //'profile:ntext',
 
             ['class' => 'yii\grid\ActionColumn',
-                        'template'=>'{view}{update}{privilege}',
+                        'template'=>'{view}{update}{resetpwd}{privilege}',
                         'buttons'=>[
+                                      'resetpwd'=>function($url,$model,$key)
+                                      {
+                                          $options=[
+                                                  'title'=>Yii::t('yii','重置密码'),
+                                                  'aria-label'=>Yii::t('yii','重置密码'),
+                                                  'data-pjax'=>'0',
+                                          ];
+                                          return Html::a('<span class="glyphicon glyphicon-lock"></span>',$url,$options);
+                                      },
                                       'privilege'=>function($url,$model,$key)
                                       {
                                           $options=[
