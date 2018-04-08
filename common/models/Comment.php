@@ -95,5 +95,10 @@ class Comment extends \yii\db\ActiveRecord
         return mb_substr($tmpStr,0,10,'utf-8').(($tmpLen>10)?'...':'');
     }
 
+    public static function getPengdingCommentCount()
+    {
+        return Comment::find()->where(['status'=>1])->count();
+    }
+
 
 }

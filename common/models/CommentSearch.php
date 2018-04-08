@@ -83,6 +83,12 @@ class CommentSearch extends Comment
                 'desc'=>['user.username'=>SORT_DESC],
             ];
 
+        $dataProvider->sort->defaultOrder =
+            [
+                'status'=>SORT_ASC,
+                'id'=>SORT_DESC,
+            ];
+
 
 
 
